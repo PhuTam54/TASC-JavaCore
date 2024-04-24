@@ -95,5 +95,36 @@ public class Main {
                 System.out.println(super.x);
             }
         }
+
+        // Call another Constructor
+        class ThisKeywordOne {
+            private int x;
+
+            public ThisKeywordOne() {
+                this(10);
+            }
+
+            public ThisKeywordOne(int x) {
+                this.x = x;
+            }
+
+//            public getPoiner(ThisKeywordTwo pointer) {
+//                return this;
+//            }
+        }
+
+        // Pass a Pointer ( reference ) back to the current object
+        class ThisKeywordTwo {
+            private ThisKeywordOne anotherObject = new ThisKeywordOne();
+
+            public static void main(String[] args) {
+                ThisKeywordTwo anObject = new ThisKeywordTwo();
+                anObject.passPointer();
+            }
+
+            public void passPointer() {
+//                anotherObject.someMethod(this);
+            }
+        }
     }
 }
