@@ -126,5 +126,56 @@ public class Main {
 //                anotherObject.someMethod(this);
             }
         }
+
+        // Ok
+        interface MyInterface {
+            int MY_CONSTANT = 10;
+            void myMethod();
+            default void defaultMethod() {
+                System.out.println("This is a default method in the interface.");
+            }
+
+            // Static method
+            static void staticMethod() {
+                System.out.println("This is a static method in the interface.");
+            }
+        }
+
+        abstract class MyAbstractClass {
+            abstract void myMethod();
+        }
+
+        class MyClass extends MyAbstractClass implements MyInterface {
+            @Override
+            public void myMethod() {
+                System.out.println("Implementing the method from both the interface and the abstract class.");
+            }
+            public void printConstant() {
+                System.out.println(MyInterface.MY_CONSTANT);
+            }
+        }
+
+        MyClass myClass = new MyClass();
+        myClass.myMethod();
+        myClass.printConstant();
+        myClass.defaultMethod();
+        MyInterface.staticMethod();
+        //Trong ví dụ trên, `MyInterface` có một default method (`defaultMethod()`) và một static method (`staticMethod()`). `MyClass` implement `MyInterface` nhưng không cần phải override `defaultMethod()`. Bạn có thể gọi `defaultMethod()` trên một instance của `MyClass`, và gọi `staticMethod()` trực tiếp từ `MyInterface`.
+
+        interface MyInterface2 {
+            void myMethod();
+        }
+
+        abstract class MyAbstractClass2 {
+            abstract int myMethod();
+        }
+
+        // This will cause a compile error
+//        class MyClass2 extends MyAbstractClass2 implements MyInterface2 {
+//            @Override
+//            public void myMethod() {
+//                System.out.println("Implementing the method from both the interface and the abstract class.");
+//            }
+//        }
     }
 }
