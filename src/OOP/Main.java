@@ -160,7 +160,6 @@ public class Main {
         myClass.printConstant();
         myClass.defaultMethod();
         MyInterface.staticMethod();
-        //Trong ví dụ trên, `MyInterface` có một default method (`defaultMethod()`) và một static method (`staticMethod()`). `MyClass` implement `MyInterface` nhưng không cần phải override `defaultMethod()`. Bạn có thể gọi `defaultMethod()` trên một instance của `MyClass`, và gọi `staticMethod()` trực tiếp từ `MyInterface`.
 
         interface MyInterface2 {
             void myMethod();
