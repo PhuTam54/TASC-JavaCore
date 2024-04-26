@@ -40,6 +40,6 @@ public class Customer implements Serializable {
 
     @Override
     public String toString() {
-        return customerName + "\t\t   " + customerPhoneNumber;
+        return String.format("%-20s%-20s%-20s", customerName, customerPhoneNumber, customerEmail);
     }
 }

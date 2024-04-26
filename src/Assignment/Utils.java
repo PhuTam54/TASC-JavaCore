@@ -11,7 +11,7 @@ public class Utils {
     }
 
     public static boolean isEmail(String str) {
-        return str.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+        return str.matches("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$");
     }
 
     public static boolean isPhoneNumber(String str) {

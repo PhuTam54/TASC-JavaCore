@@ -62,20 +62,22 @@ public class Main {
                         System.out.println("Enter " + (i + 1) + " customer email: ");
                         String customerEmail = sc.nextLine();
                         while (!Utils.isEmail(customerEmail)) {
-                            System.out.println("Email is invalid, Please try again! (Email must contain '@' and '.' and '@' must be before '.')");
+                            System.out.println("Email is invalid, Please try again! (Email must have format: email@example.com)");
                             customerEmail = sc.nextLine();
                         }
                         customer.setCustomerEmail(customerEmail);
 
                         System.out.println("Enter " + (i + 1) + " customer phone number: ");
                         String customerPhoneNumber = sc.nextLine();
-                        while (!Utils.isPhoneNumber(customerPhoneNumber)) {
-                            System.out.println("Phone number is invalid, Please try again! (Phone number must be 10 or 11 digits and start with '0')");
-                            customerPhoneNumber = sc.nextLine();
-                            if (customerList.findByPhoneNumber(customerPhoneNumber) != null) {
+                        boolean isExisted = true;
+                        while (!Utils.isPhoneNumber(customerPhoneNumber) || isExisted) {
+                            if (isExisted) {
                                 System.out.println("Phone number is already existed, Please try again!");
-                                customerPhoneNumber = sc.nextLine();
+                            } else {
+                                System.out.println("Phone number is invalid, Please try again! (Phone number must be 10 or 11 digits)");
                             }
+                            customerPhoneNumber = sc.nextLine();
+                            isExisted = customerList.findByPhoneNumber(customerPhoneNumber) != null;
                         }
                         customer.setCustomerPhoneNumber(customerPhoneNumber);
 
@@ -116,7 +118,8 @@ public class Main {
                             System.out.println("Which information do you want to update?");
                             System.out.println("1. Name");
                             System.out.println("2. Email");
-                            System.out.println("3. All");
+                            System.out.println("3. Phone number");
+                            System.out.println("4. All");
                             System.out.println("0. Cancel");
                             do {
                                 try {
@@ -152,7 +155,7 @@ public class Main {
                                     System.out.println("Enter new email: ");
                                     String newEmail = sc.nextLine();
                                     while (!Utils.isEmail(newEmail)) {
-                                        System.out.println("Email is invalid, Please try again! (Email must contain '@' and '.' and '@' must be before '.')");
+                                        System.out.println("Email is invalid, Please try again! (Email must have format: email@example.com)");
                                         newEmail = sc.nextLine();
                                     }
                                     customerUpdate.setCustomerEmail(newEmail);
@@ -167,23 +170,61 @@ public class Main {
                                     choice = 0;
                                 }
                                 case 3 -> {
+                                    System.out.println("Enter new phone number: ");
+                                    String newPhoneNumber = sc.nextLine();
+                                    boolean isExisted = true;
+                                    while (!Utils.isPhoneNumber(newPhoneNumber) || isExisted) {
+                                        if (isExisted) {
+                                            System.out.println("Phone number is already existed, Please try again!");
+                                        } else {
+                                            System.out.println("Phone number is invalid, Please try again! (Phone number must be 10 or 11 digits)");
+                                        }
+                                        newPhoneNumber = sc.nextLine();
+                                        isExisted = customerList.findByPhoneNumber(newPhoneNumber) != null;
+                                    }
+                                    String oldName = customerUpdate.getCustomerName();
+                                    String oldEmail = customerUpdate.getCustomerEmail();
+
+                                    customerList.removeCustomer(customerUpdatePhoneNumber);
+                                    customerList.addCustomer(new Customer(oldName, oldEmail, newPhoneNumber));
+                                    try {
+                                        customerList.saveToFile(filename);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        System.out.println("An error occurred. Please try again.");
+                                    }
+                                    System.out.println("\nCustomer updated successfully!");
+                                    choice = 0;
+                                }
+                                case 4 -> {
                                     System.out.println("Enter new name: ");
                                     String newName = sc.nextLine();
                                     while (!Utils.isName(newName)) {
                                         System.out.println("Name is invalid, Please try again! (Name must be at least 2 characters)");
                                         newName = sc.nextLine();
                                     }
-                                    customerUpdate.setCustomerName(newName);
 
                                     System.out.println("Enter new email: ");
                                     String newEmail = sc.nextLine();
                                     while (!Utils.isEmail(newEmail)) {
-                                        System.out.println("Email is invalid, Please try again! (Email must contain '@' and '.' and '@' must be before '.')");
+                                        System.out.println("Email is invalid, Please try again! (Email must have format: email@example.com)");
                                         newEmail = sc.nextLine();
                                     }
-                                    customerUpdate.setCustomerEmail(newEmail);
 
-                                    customerList.updateCustomer(customerUpdatePhoneNumber, customerUpdate);
+                                    System.out.println("Enter new phone number: ");
+                                    String newPhoneNumber = sc.nextLine();
+                                    boolean isExisted = true;
+                                    while (!Utils.isPhoneNumber(newPhoneNumber) || isExisted) {
+                                        if (isExisted) {
+                                            System.out.println("Phone number is already existed, Please try again!");
+                                        } else {
+                                            System.out.println("Phone number is invalid, Please try again! (Phone number must be 10 or 11 digits)");
+                                        }
+                                        newPhoneNumber = sc.nextLine();
+                                        isExisted = customerList.findByPhoneNumber(newPhoneNumber) != null;
+                                    }
+                                    customerList.removeCustomer(customerUpdatePhoneNumber);
+                                    customerList.addCustomer(new Customer(newName, newEmail, newPhoneNumber));
                                     try {
                                         customerList.saveToFile(filename);
                                     } catch (Exception e) {

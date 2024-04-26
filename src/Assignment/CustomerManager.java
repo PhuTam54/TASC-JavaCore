@@ -1,10 +1,8 @@
 package Assignment;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CustomerManager implements ICustomerManager {
@@ -21,11 +19,13 @@ public class CustomerManager implements ICustomerManager {
 
     @Override
     public void printAllCustomer() {
-        System.out.println("\t\tCustomer management");
-        System.out.println("Name\t\tPhone number");
+        System.out.println("-----------------------------------------------------------------------------");
+        System.out.println(String.format("%-20s%-20s%-20s", "Name", "Phone number", "Email"));
+        System.out.println("-----------------------------------------------------------------------------");
         for (Map.Entry<String, Customer> entry : customerMap.entrySet()) {
             System.out.println(entry.getValue());
         }
+        System.out.println("-----------------------------------------------------------------------------");
     }
 
     @Override
