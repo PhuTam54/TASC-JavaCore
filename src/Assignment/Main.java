@@ -1,21 +1,39 @@
 package Assignment;
 
+import Assignment.model.Customer;
+import Assignment.service.CustomerManagerImpl;
+import Assignment.utils.Utils;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        CustomerManager customerList = new CustomerManager();
-        String filename = "CustomerManagement.txt";
-        try {
-            customerList.loadFromFile(filename);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("An error occurred. Please try again.");
-        }
-
+        CustomerManagerImpl customerList = new CustomerManagerImpl();
         int choose;
         Scanner sc = new Scanner(System.in);
+        boolean isFileExists = false;
+        String filename;
+        do {
+            System.out.println("Enter file name: ");
+            filename = sc.nextLine();
+            try {
+                isFileExists = Utils.isFileExists(filename);
+                if (isFileExists) {
+                    customerList.loadFromFile(filename);
+                    System.out.println("File loaded successfully!");
+                } else {
+                    System.out.println("File not found. Creating new file...");
+                    Utils.createFile(filename);
+                    System.out.println("File created successfully!");
+                    isFileExists = true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("An error occurred. Please try again.");
+            }
+        } while (!isFileExists);
+
         do {
             System.out.println("------------MENU-------------");
             System.out.println("1. Add new customer");
@@ -67,18 +85,18 @@ public class Main {
                         }
                         customer.setCustomerEmail(customerEmail);
 
-                        System.out.println("Enter " + (i + 1) + " customer phone number: ");
-                        String customerPhoneNumber = sc.nextLine();
-                        boolean isExisted = true;
-                        while (!Utils.isPhoneNumber(customerPhoneNumber) || isExisted) {
-                            if (isExisted) {
-                                System.out.println("Phone number is already existed, Please try again!");
-                            } else {
-                                System.out.println("Phone number is invalid, Please try again! (Phone number must be 10 or 11 digits)");
-                            }
+                        String customerPhoneNumber;
+                        boolean isExisted;
+                        do {
+                            System.out.println("Enter " + (i + 1) + " customer phone number: ");
                             customerPhoneNumber = sc.nextLine();
                             isExisted = customerList.findByPhoneNumber(customerPhoneNumber) != null;
-                        }
+                            if (isExisted) {
+                                System.out.println("Phone number is already existed, Please try again!");
+                            } else if (!Utils.isPhoneNumber(customerPhoneNumber)) {
+                                System.out.println("Phone number is invalid, Please try again! (Phone number must be 10 or 11 digits)");
+                            }
+                        } while (!Utils.isPhoneNumber(customerPhoneNumber) || isExisted);
                         customer.setCustomerPhoneNumber(customerPhoneNumber);
 
                         customerList.addCustomer(customer);

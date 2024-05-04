@@ -1,11 +1,13 @@
-package Assignment;
+package Assignment.service;
+
+import Assignment.model.Customer;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CustomerManager implements ICustomerManager {
+public class CustomerManagerImpl implements CustomerManagerService {
     private final Map<String, Customer> customerMap = new HashMap<>();
     @Override
     public void addCustomer(Customer customer) {
@@ -48,7 +50,7 @@ public class CustomerManager implements ICustomerManager {
 
     @Override
     public void loadFromFile(String filename) throws IOException, ClassNotFoundException {
-        InputStream inputStream = Files.newInputStream(new File("src/Assignment/" + filename).toPath());
+        InputStream inputStream = Files.newInputStream(new File("src/Assignment/database/" + filename + ".txt").toPath());
         Customer customer;
         try (inputStream; ObjectInputStream objectInputStream = new ObjectInputStream(inputStream)) {
             while ((customer = (Customer) objectInputStream.readObject()) != null) {
@@ -61,7 +63,7 @@ public class CustomerManager implements ICustomerManager {
 
     @Override
     public void saveToFile(String filename) throws IOException {
-        OutputStream outputStream = Files.newOutputStream(new File("src/Assignment/" + filename).toPath());
+        OutputStream outputStream = Files.newOutputStream(new File("src/Assignment/database/" + filename + ".txt").toPath());
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
         for (Map.Entry<String, Customer> entry : customerMap.entrySet()) {
             objectOutputStream.writeObject(entry.getValue());

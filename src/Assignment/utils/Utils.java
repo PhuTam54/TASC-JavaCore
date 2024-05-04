@@ -1,4 +1,6 @@
-package Assignment;
+package Assignment.utils;
+
+import java.io.File;
 
 public class Utils {
     public static boolean isNumeric(String str) {
@@ -20,5 +22,17 @@ public class Utils {
 
     public static boolean isName(String str) {
         return str.length() >= 2;
+    }
+
+    public static boolean isFileExists(String filename) {
+        return new File("src/Assignment/database/" + filename + ".txt").exists();
+    }
+
+    public static boolean createFile(String filename) {
+        try {
+            return new File("src/Assignment/database/" + filename + ".txt").createNewFile();
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

@@ -1,7 +1,7 @@
-package Assignment;
+package Assignment.model;
 
 import java.io.Serializable;
-import java.util.*;
+
 public class Customer implements Serializable {
     private String customerName, customerEmail, customerPhoneNumber;
     public Customer(String customerName, String customerEmail, String customerPhoneNumber) {

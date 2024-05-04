@@ -1,8 +1,10 @@
-package Assignment;
+package Assignment.service;
+
+import Assignment.model.Customer;
 
 import java.io.IOException;
 
-public interface ICustomerManager {
+public interface CustomerManagerService {
     void addCustomer(Customer customer);
     Customer findByPhoneNumber(String customerPhoneNumber);
     void printAllCustomer();
